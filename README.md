@@ -1,6 +1,7 @@
 # Black-Jack
 
 À faire :
+
 ● Jeu de base avec un seul joueur sans mise avec une interface graphique “simple”
 (10 points)
 
