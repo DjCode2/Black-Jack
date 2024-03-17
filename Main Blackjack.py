@@ -2,11 +2,15 @@
 """Clément(le meilleur), Théo, Maïwenn"""
 
 import os
-try:
-    import random
-    import tkinter as tk
-while 'ImportError':
-    os.fork()
+while True:
+    try:
+        import random
+        import tkinter as tk
+        break #on sort si les instal se sont bien passé
+    except ImportError:
+        print("erreur d'import, une des bibliothèques n'est pas sur la machine ou n'est pas reconnue")
+        break
+
 
 tapis = tk.Tk()
 
