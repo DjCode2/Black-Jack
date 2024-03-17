@@ -26,7 +26,7 @@ hauteur_fenetre = 200
 root.geometry(f"{largeur_fenetre}x{hauteur_fenetre}") #définir la taille de la fenetre indépendament du contenu
 
 # placer le titre et les boutons
-Titre = tk.Label(root, text="Bienvenue notre jeu", font=("Yu Mincho", 16))
+Titre = tk.Label(root, text="Bienvenue dans notre jeu", font=("Yu Mincho", 16))
 jouer_button = tk.Button(root, text="Jouer",font=("Arial", 12), width=10, command=ouvrir_fenetre_jeu)
 quitter_button = tk.Button(root, text="Quitter", width=10, font=("Arial", 12), bg="red", command=quitter_jeu)
 text_blague = tk.Label(root, text="Please don't do that, dont quit :'(", font=("Arial", 8), fg="gray")
