@@ -118,7 +118,8 @@ carte4=carte_a_distribuer(carte[1])
 print(carte4[0])
 main4=main_joueur(carte4[0],main3[2],main3[3],main3[0],main3[4],main3[1])
 
-print(main4[0])
-print(main4[3])
+print(f"main du joueur : {main4[3]}")#joueur 
+print(f"main du croupier : {main4[0]}" )#croupier
+
 
 tapis.mainloop()
