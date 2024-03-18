@@ -1,4 +1,4 @@
-# projet black jack
+# projet black jack / ancienne version , obsolète
 """Clément(le meilleur), Théo, Maïwenn"""
 
 import os
