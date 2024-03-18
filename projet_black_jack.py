@@ -1,8 +1,17 @@
 # projet black jack
 """Clément, Théo, Maïwenn"""
 
-import random
-import tkinter as tk
+while True:
+    try:
+        import tkinter as tk
+        import random
+        print("l'import c'est bien passé")
+        break #on sort si les instal se sont bien passé
+    except ImportError:
+        print("erreur d'import, une des bibliothèques n'est pas sur la machine ou n'est pas reconnue")
+        break
+
+
 
 tapis = tk.Tk()
 
