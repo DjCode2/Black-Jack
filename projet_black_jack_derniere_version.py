@@ -35,7 +35,7 @@ def debut ():
     joueur_debut=1
     return joueur_debut
 
-def changement_joueur(player):
+def changement_joueur(player): # pour le multijoueur a faire a la fin
     #nombre_de_joueur=int(input("combien de joueur?"))
     #assert nombre_de_joueur<5 and nombre_de_joueur>0
     # numpy array et implementer avec le nombre de joueur donner 
@@ -49,8 +49,8 @@ def changement_joueur(player):
 # fonction determiner la carte distribué + actualisation du jeu de carte 
 def carte_a_distribuer(jeucarte):
     nombre=random.randint(0,len(jeucarte))
-    carte_donner=jeucarte[nombre]
-    if carte_donner[1]=="as":
+    carte_donner=jeucarte[nombre] #on donne la carte 
+    if carte_donner[1]=="as": # dans le cas ou on a un as
         valeur_as=int(input("1 ou 11"))
         assert valeur_as==1 or valeur_as==11
         carte_donner2=(carte_donner[0],carte_donner[1],valeur_as)
@@ -91,7 +91,7 @@ def fin_de_jeu(scorejoueur,scorecroupier,main_joueur):
     else :
         return ("gagner")
 
-# programme principale 
+# programme principale / sera plus tard dans un autre dossier
 jeu=jeu_de_carte()
 joueur=debut()
 
