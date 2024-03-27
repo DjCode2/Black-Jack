@@ -19,24 +19,27 @@ def quitter_jeu():
 # crée le menu
 root = tk.Tk()
 root.title("Menu")
-
 # def la fenetre 
-largeur_fenetre = 300
-hauteur_fenetre = 200
+largeur_fenetre = 1230
+hauteur_fenetre = 762
+root.resizable(False, False)
+
+photo = tk.PhotoImage(file="BlackjackMenu.png")
+image_label = tk.Label(root, image=photo)
+image_label.pack()
+
 root.geometry(f"{largeur_fenetre}x{hauteur_fenetre}") #définir la taille de la fenetre indépendament du contenu
 
-# placer le titre et les boutons
-Titre = tk.Label(root, text="Bienvenue dans notre jeu", font=("Yu Mincho", 16))
-jouer_button = tk.Button(root, text="Jouer",font=("Arial", 12), width=10, command=ouvrir_fenetre_jeu)
-quitter_button = tk.Button(root, text="Quitter", width=10, font=("Arial", 12), bg="red", command=quitter_jeu)
-text_blague = tk.Label(root, text="Please don't do that, dont quit :'(", font=("Arial", 8), fg="gray")
+#def les boutons
+jouer_button = tk.Button(root, text="Jouer",font=("Arial", 25), width=10, command=ouvrir_fenetre_jeu)
+quitter_button = tk.Button(root, text="Quitter", width=10, font=("Arial", 25), bg="red" , command=quitter_jeu)
 
+#placer le titre et les boutons 
 
-#placer le titre et les boutons avec .pack, il les place automatiquement au milieu
-Titre.pack(pady=20)
-jouer_button.pack(pady=10)
-quitter_button.pack(pady=10)
-text_blague.pack()
+jouer_button.place(x=520,y=450)
+quitter_button.place(x=520, y=520)
+
 
 # Lancer la boucle principale
 root.mainloop()
+
