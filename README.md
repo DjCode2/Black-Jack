@@ -1,12 +1,9 @@
-# Black-Jack
+# Projet Black-Jack
 
-À faire :
 
-● Jeu de base avec un seul joueur sans mise avec une interface graphique “simple”
-(10 points)
 
-● Graphiques avancées (10 points)
+● Main loop, future boucle principale du projet
 
-● Bonus : Multi-joueurs, possibilité de mise, règles plus complexe (e.g. split. Voir les
-règles sur internet) (jusqu’à 7 points) IA en bonus
+● projet_black_jack_derniere_version.py toutes les fonctions relatives au fonctionnement des mecaniques du jeu 
+
 
