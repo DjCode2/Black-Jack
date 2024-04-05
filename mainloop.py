@@ -37,7 +37,3 @@ creer_menu()
 
 
 
-
-
-# Lancer la boucle principale
-root_menu.mainloop()
