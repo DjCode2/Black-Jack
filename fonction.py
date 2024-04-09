@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import datetime
-import FctBlackJack
+import projet_black_jack
 import json
 
 
@@ -15,11 +15,7 @@ def quitter_menu(root_menu):
     root_menu.quit()
 
 
-def ajouter_au_score(nouvelle_valeur, label):
-    # Récupérer la valeur actuelle du score depuis le label
-    score_actuel = int(label.cget("text").split(":")[1].strip())
-    
-    nouveau_score = score_actuel + nouvelle_valeur
+def ajouter_au_score(nouveau_score, label):
     label.config(text=f"Score : {nouveau_score}")
 
 
@@ -38,8 +34,25 @@ def sauvegarder(score):
     with open("donnees.json", "w") as fichier:
         json.dump(donnees, fichier)
 
+images_cartes = {
+    #("coeur", '5', 5): tk.PhotoImage(file="5_de_coeur.png"),
+    # Ajoutez les autres cartes de la même manière (provisoir)
+}
+
+# Fonction pour afficher les cartes du joueur sur le canevas
+def afficher_cartes_joueur(main_joueur, canvas):
+    x = 100  # Position x initiale pour afficher les cartes
+    y = 100  # Position y initiale pour afficher les cartes
+    for carte in main_joueur:
+        image_carte = images_cartes.get(carte)
+        if image_carte:
+            canvas.create_image(x, y, anchor="nw", image=image_carte)
+            x += 50  # Espacement horizontal entre les cartes
+
+
 def quitter(root_jeu):
-    root_jeu.destroy()
+    if messagebox.askokcancel("théo à un petit pipou", "Êtes-vous sûr de vouloir quitter ? "):
+        root_jeu.destroy()
 
 def demander_carte():#remplace action_joueur
     pass
@@ -53,8 +66,7 @@ def garder_main():
     pass
 
 def abandonner(root_jeu):
-    if messagebox.askokcancel("oh la ptite bite", "Êtes-vous sûr de vouloir abandonner ?"):
-        root_jeu.destroy()
+    pass
 
 def affiche_mainJ(mainj,label):
     label.config(text=f"Score : {mainj}")
@@ -116,36 +128,29 @@ def BouclePrincipale(root_menu):
 
     #relatif au jeu --------------------------------------------------
 
-    # programme principale / sera plus tard dans un autre dossier
-    jeu=FctBlackJack.jeu_de_carte()
-    joueur=FctBlackJack.debut()
+    # programme principale / sera plus tard dans un autre dossier=0
 
-    main_du_joueur=[]
-    main_du_croupier=[]
+    # distribution 
+    projet_black_jack.jeu_de_carte()
+    for i in range (4):
+        projet_black_jack.carte_a_distribuer()
+        projet_black_jack.main_joueur()
+        projet_black_jack.changement_joueur()
 
-    score_du_joueur=0
-    score_du_croupier=0
+
+    
+    print(f"la main du joueur : {projet_black_jack.main_du_joueur}")  
+    print (f"la main de jack black {projet_black_jack.main_du_croupier}")
+    
+    #projet_black_jack.action_joueur()1
+    #projet_black_jack.changement_joueur()
+    #projet_black_jack.action_croupier()
+    #print(f"la main du joueur : {projet_black_jack.main_du_joueur}")  
+    #print (f"la main de jack black {projet_black_jack.main_du_croupier}")
+    #projet_black_jack.fin_de_jeu()
 
 
-    carte=FctBlackJack.carte_a_distribuer(jeu)
-    print(carte[0])
-    main=FctBlackJack.main_joueur(carte[0],joueur,main_du_joueur,main_du_croupier,score_du_joueur,score_du_croupier)
-
-    carte2=FctBlackJack.carte_a_distribuer(carte[1])
-    print(carte2[0])
-    main2=FctBlackJack.main_joueur(carte2[0],main[2],main[3],main[0],main[4],main[1])
-
-    carte3=FctBlackJack.carte_a_distribuer(carte[1])
-    print(carte3[0])
-    main3=FctBlackJack.main_joueur(carte3[0],main2[2],main2[3],main2[0],main2[4],main2[1])
-
-    carte4=FctBlackJack.carte_a_distribuer(carte[1])
-    print(carte4[0])
-    main4=FctBlackJack.main_joueur(carte4[0],main3[2],main3[3],main3[0],main3[4],main3[1])
-
-    print(f"main du joueur : {main4[3]} ")#joueur 
-    print(f"main du croupier : {main4[0]}" )#croupier
-
-    mainJ_label.config(text=f"main joueur : {main4[3]}")
+    mainJ_label.config(text=f"main joueur : {projet_black_jack.main_du_joueur}")
+    ajouter_au_score(projet_black_jack.main_du_joueur[0][-1]+projet_black_jack.main_du_joueur[1][-1],score_label)
 
     root_jeu.mainloop()
