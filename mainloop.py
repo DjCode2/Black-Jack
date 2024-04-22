@@ -1,5 +1,6 @@
 import tkinter as tk
 import fonction
+import param
 
 # Crée le menu
 def creer_menu():
@@ -18,7 +19,7 @@ def creer_menu():
     # Définir la taille de la fenêtre indépendamment du contenu
 
     # Définir les boutons du menu
-    jouer_button = tk.Button(root_menu, text="Jouer", font=("Arial", 25), width=10, command=lambda: fonction.BouclePrincipale(root_menu))
+    jouer_button = tk.Button(root_menu, text="Jouer", font=("Arial", 25), width=10, command=lambda: param.paramètre(root_menu))
     quitter_button = tk.Button(root_menu, text="Quitter", width=10, font=("Arial", 25), bg="red", command=root_menu.quit)
 
     # Placement du titre et des boutons du menu
@@ -30,6 +31,13 @@ def creer_menu():
 
 
 creer_menu()
+
+
+
+
+
+
+
 
 
 
