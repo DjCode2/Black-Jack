@@ -2,10 +2,11 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from PIL import Image, ImageTk
 import datetime
 import projet_black_jack
+import param
 import json
-
 
 banque_joueur=0
 score=0
@@ -13,9 +14,6 @@ mainJ = ""
 
 def quitter_menu(root_menu):
     root_menu.quit()
-
-
-
 
 def sauvegarder(score):
     # chopper la date 
@@ -32,41 +30,17 @@ def sauvegarder(score):
     with open("donnees.json", "w") as fichier:
         json.dump(donnees, fichier)
 
-images_cartes = {
-    #("coeur", '5', 5): tk.PhotoImage(file="5_de_coeur.png"),
-    # Ajoutez les autres cartes de la même manière (provisoir)
-}
-
-# Fonction pour afficher les cartes du joueur sur le canevas
-def afficher_cartes_joueur(main_joueur, canvas):
-    x = 100  # Position x initiale pour afficher les cartes
-    y = 100  # Position y initiale pour afficher les cartes
-    for carte in main_joueur:
-        image_carte = images_cartes.get(carte)
-        if image_carte:
-            canvas.create_image(x, y, anchor="nw", image=image_carte)
-            x += 50  # Espacement horizontal entre les cartes
-
-
 def quitter(root_jeu):
-    if messagebox.askokcancel("théo à un petit pipou", "Êtes-vous sûr de vouloir quitter ? "):
+
+    if messagebox.askokcancel("black jack juge you", "Êtes-vous sûr de vouloir quitter ? "):
         root_jeu.destroy()
 
-def demander_carte():#remplace action_joueur
-    pass
-    
+
 def doubler_mise(score_label):#mise variable global? + ajouter variable banque_joueur qui sera la totalité des jetons disponibles 
-    
-    pass
-
-
-def garder_main():
-    pass
-
-def abandonner(root_jeu):
     pass
 
 def affiche_mainJ(mainj,label):
+
     label.config(text=f"Score : {mainj}")
 
 def BouclePrincipale(root_menu):
@@ -109,21 +83,19 @@ def BouclePrincipale(root_menu):
     btn_quit = tk.Button(root_jeu, text="Quitter", width=13, font=("Arial", 15), command=lambda: quitter(root_jeu))
     btn_quit.place(x=1282, y=52)
 
-    btn_abandonner = tk.Button(root_jeu, text="Abandonner", width=13, font=("Arial", 15),command=lambda: abandonner(root_jeu))
-    btn_abandonner.place(x=1275, y=760)
+    btn_abandonner = tk.Button(root_jeu, text="Abandonner", width=13, font=("Arial", 15))
+    btn_abandonner.place(x=1275, y=760)#recup la moitié de la mise et retour maison 
 
-    btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=lambda:projet_black_jack.action_joueur(mainJ_label,score_label))
+    btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=lambda:projet_black_jack.action_joueur(mainJ_label,score_label,canvas))
     btn_demande_carte.place(x=470, y=750)
 
-    btn_double_mise = tk.Button(root_jeu, text="Doubler la mise", width=15, font=("Arial", 14), command=lambda:projet_black_jack.ajouter_au_score(2,score_label))
+    btn_double_mise = tk.Button(root_jeu, text="Doubler la mise", width=15, font=("Arial", 14), command=lambda:param.doublemise())
     btn_double_mise.place(x=650, y=750)
 
-    btn_garder_main = tk.Button(root_jeu, text="Garder la main", width=15, font=("Arial", 14), command=garder_main)
+    btn_garder_main = tk.Button(root_jeu, text="Garder la main", width=15, font=("Arial", 14), command=projet_black_jack.fin_de_jeu)
     btn_garder_main.place(x=830, y=750)
 
     #relatif au jeu --------------------------------------------------
-
-    # programme principale / sera plus tard dans un autre dossier=0
 
     # distribution 
     projet_black_jack.jeu_de_carte()
@@ -132,11 +104,47 @@ def BouclePrincipale(root_menu):
         projet_black_jack.main_joueur()
         projet_black_jack.changement_joueur()
 
+    #debug main du joueur 
     print(f"la main du joueur : {projet_black_jack.main_du_joueur}")  
     print (f"la main de jack black {projet_black_jack.main_du_croupier}")
-    
 
+    #debug sur jeu direct
     mainJ_label.config(text=f"main joueur : {projet_black_jack.main_du_joueur}")
-    projet_black_jack.ajouter_au_score(projet_black_jack.main_du_joueur[0][-1]+projet_black_jack.main_du_joueur[1][-1],score_label)
+
+    #ajouter au score 
+    projet_black_jack.ajouter_au_score(projet_black_jack.somme_valeurs(projet_black_jack.main_du_joueur),score_label)
+    
+    # affichage de la main du joueur :
+    img1 = "cartes/" + str(projet_black_jack.main_du_joueur[0]) + ".gif"  # Chemin d'accès à l'image
+    img2 = "cartes/" + str(projet_black_jack.main_du_joueur[1]) + ".gif"  # Chemin d'accès à l'image
+
+    #redimentionner
+    img1_redim = projet_black_jack.redimensionner_image(img1, (80, 120))
+    img2_redim = projet_black_jack.redimensionner_image(img2, (80, 120))
+
+    # Afficher les images redimensionnées sur le canevas
+    canvas.create_image(673, 495, anchor="nw", image=img1_redim)
+    canvas.create_image(700, 495, anchor="nw", image=img2_redim)
+
+    #afficher main croupier 
+    img1croup = "cartes/" + str(projet_black_jack.main_du_croupier[0]) + ".gif"  # Chemin d'accès à l'image
+    img2croup = "cartes/" + str(projet_black_jack.main_du_croupier[1]) + ".gif"  # Chemin d'accès à l'image
+
+    img1_redim_croup = projet_black_jack.redimensionner_image(img1croup, (80, 120))
+    img2_redim_croup = projet_black_jack.redimensionner_image(img2croup, (80, 120))
+
+    # Afficher les images redimensionnées sur le canevas
+    canvas.create_image(673, 290, anchor="nw", image=img1_redim_croup)
+    canvas.create_image(700, 290, anchor="nw", image=img2_redim_croup)
+
 
     root_jeu.mainloop()
+
+
+#    . 　　　。　　　　•　 　ﾟ　　。 　　。 .   .
+#　　　.　　　 　　.　　　　　。　　　.  　 。 . 。
+#.　　 。   　•　　　 .   ඞ 。 . 　　 • 　　　　•
+#　　ﾟ　　 Jack Black was not An Impostor.　 。　.
+#　　'　　。    　1 Impostor remains 　    　 。
+#　　ﾟ　　　.　　　. ,　　　　.　 .   .    • 　。 . 
+#　 　.　　　 .　 .   . 　　　。　　　.  　 。 . 。
