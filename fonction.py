@@ -15,8 +15,6 @@ def quitter_menu(root_menu):
     root_menu.quit()
 
 
-def ajouter_au_score(nouveau_score, label):
-    label.config(text=f"Score : {nouveau_score}")
 
 
 def sauvegarder(score):
@@ -91,9 +89,6 @@ def BouclePrincipale(root_menu):
     root_jeu.resizable(False, False)
     root_jeu.geometry(f"{largeur_fenetre_jeu}x{hauteur_fenetre_jeu}")
 
-    # Ajouter un bouton "Demander Carte" avec la même couleur de fond que l'image de fond
-    demander_button = ttk.Button(root_jeu, text="Demander Carte", command=demander_carte, style="Custom.TButton")
-    demander_button.pack()
 
     # Configuration du style pour le bouton
     root_jeu.tk_setPalette(background="#377D22", foreground='white', activeBackground="#377D22", activeForeground='white')
@@ -117,10 +112,10 @@ def BouclePrincipale(root_menu):
     btn_abandonner = tk.Button(root_jeu, text="Abandonner", width=13, font=("Arial", 15),command=lambda: abandonner(root_jeu))
     btn_abandonner.place(x=1275, y=760)
 
-    btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=demander_carte)
+    btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=lambda:projet_black_jack.action_joueur(mainJ_label,score_label))
     btn_demande_carte.place(x=470, y=750)
 
-    btn_double_mise = tk.Button(root_jeu, text="Doubler la mise", width=15, font=("Arial", 14), command=lambda:ajouter_au_score(2,score_label))
+    btn_double_mise = tk.Button(root_jeu, text="Doubler la mise", width=15, font=("Arial", 14), command=lambda:projet_black_jack.ajouter_au_score(2,score_label))
     btn_double_mise.place(x=650, y=750)
 
     btn_garder_main = tk.Button(root_jeu, text="Garder la main", width=15, font=("Arial", 14), command=garder_main)
@@ -137,20 +132,11 @@ def BouclePrincipale(root_menu):
         projet_black_jack.main_joueur()
         projet_black_jack.changement_joueur()
 
-
-    
     print(f"la main du joueur : {projet_black_jack.main_du_joueur}")  
     print (f"la main de jack black {projet_black_jack.main_du_croupier}")
     
-    #projet_black_jack.action_joueur()1
-    #projet_black_jack.changement_joueur()
-    #projet_black_jack.action_croupier()
-    #print(f"la main du joueur : {projet_black_jack.main_du_joueur}")  
-    #print (f"la main de jack black {projet_black_jack.main_du_croupier}")
-    #projet_black_jack.fin_de_jeu()
-
 
     mainJ_label.config(text=f"main joueur : {projet_black_jack.main_du_joueur}")
-    ajouter_au_score(projet_black_jack.main_du_joueur[0][-1]+projet_black_jack.main_du_joueur[1][-1],score_label)
+    projet_black_jack.ajouter_au_score(projet_black_jack.main_du_joueur[0][-1]+projet_black_jack.main_du_joueur[1][-1],score_label)
 
     root_jeu.mainloop()
