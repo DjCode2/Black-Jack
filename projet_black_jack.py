@@ -1,14 +1,36 @@
 # projet black jack
 """Clément, Théo, Maïwenn"""
-
+import tkinter as tk
+from tkinter import ttk
+from tkinter import messagebox
+from PIL import Image, ImageTk
 import random
 import tkinter as tk
 import numpy as np
-
+from PIL import Image, ImageTk
 
 
 def ajouter_au_score(valeur, label):
     label.config(text=f"Score : {valeur}")
+
+
+
+
+def redimensionner_image(image, taille):
+    """
+    Redimensionne une image.
+
+    Args:
+        image (tk.PhotoImage): Objet PhotoImage à redimensionner.
+        taille (tuple): Taille de l'image redimensionnée au format (largeur, hauteur).
+
+    Returns:
+        tk.PhotoImage: Objet PhotoImage redimensionné.
+    """
+    img_pil = Image.open(image)
+    img_pil = img_pil.resize(taille)
+    img_redimensionnee = ImageTk.PhotoImage(img_pil)
+    return img_redimensionnee
 
 
 # generation du paquet de carte 
@@ -88,7 +110,7 @@ def somme_valeurs(cartes):
         total += carte[2]  # La troisième valeur dans chaque tuple est la valeur numérique
     return total
 
-def action_joueur(mainJ_label,score_label):
+def action_joueur(mainJ_label,score_label,canvas):
 
     global jeu
     global carte
@@ -103,6 +125,11 @@ def action_joueur(mainJ_label,score_label):
         print(main_du_joueur)
         mainJ_label.config(text=f"main joueur : {main_du_joueur}")
         ajouter_au_score(somme_valeurs(main_du_joueur),score_label)
+
+        img = "cartes/" + str(main_du_joueur[2]) + ".gif"  # Chemin d'accès à l'image
+        img_redim = redimensionner_image(img, (80, 120))
+        canvas.create_image(730, 495, anchor="nw", image=img_redim)
+
         action_croupier()
         fin_de_jeu()
     else :
