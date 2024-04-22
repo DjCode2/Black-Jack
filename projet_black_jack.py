@@ -6,7 +6,14 @@ import tkinter as tk
 import numpy as np
 
 
+
+def ajouter_au_score(valeur, label):
+    label.config(text=f"Score : {valeur}")
+
+
 # generation du paquet de carte 
+
+
 def jeu_de_carte ():
 
     global jeu
@@ -46,7 +53,7 @@ def carte_a_distribuer():
     global carte
     
     nombre=random.randint(0,len(jeu))
-    carte=jeu[nombre]
+    carte=jeu[nombre] #bug ici
 
     if carte[1]=="as":
         valeur_as=int(input("1 ou 11"))
@@ -75,7 +82,13 @@ def main_joueur():
         score_du_croupier+=carte[2]
     return
 
-def action_joueur():
+def somme_valeurs(cartes):
+    total = 0
+    for carte in cartes:
+        total += carte[2]  # La troisième valeur dans chaque tuple est la valeur numérique
+    return total
+
+def action_joueur(mainJ_label,score_label):
 
     global jeu
     global carte
@@ -84,17 +97,18 @@ def action_joueur():
     global score_du_joueur
 
     if score_du_joueur<21:
-        carte_sup=input("saisissez 'carte' si vous souahiter une carte en plus")
-        #assert carte_sup=="carte"
-        if carte_sup=="carte":
-            carte_supplementaire=int(input("saisissez le nombre de carte en plus"))
-            for i in range (carte_supplementaire):
-                carte_a_distribuer()
-                main_joueur()
-        else :
-            print(2)
+        carte_a_distribuer()
+        main_joueur()
+
+        print(main_du_joueur)
+        mainJ_label.config(text=f"main joueur : {main_du_joueur}")
+        ajouter_au_score(somme_valeurs(main_du_joueur),score_label)
+        action_croupier()
+        fin_de_jeu()
+    else :
+        print(2)
     
-    return         
+    return main_du_joueur
 
 def action_croupier():
 
@@ -140,3 +154,4 @@ score_du_croupier=0
 
 
 #fonction double mise faite 
+
