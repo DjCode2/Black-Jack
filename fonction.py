@@ -36,6 +36,8 @@ def quitter(root_jeu):
         root_jeu.destroy()
 
 
+
+
 def doubler_mise(score_label):#mise variable global? + ajouter variable banque_joueur qui sera la totalité des jetons disponibles 
     pass
 
@@ -86,7 +88,7 @@ def BouclePrincipale(root_menu):
     btn_abandonner = tk.Button(root_jeu, text="Abandonner", width=13, font=("Arial", 15))
     btn_abandonner.place(x=1275, y=760)#recup la moitié de la mise et retour maison 
 
-    btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=lambda:projet_black_jack.action_joueur(mainJ_label,score_label,canvas))
+    btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=lambda:projet_black_jack.carte_en_plus(mainJ_label,canvas))
     btn_demande_carte.place(x=470, y=750)
 
     btn_double_mise = tk.Button(root_jeu, text="Doubler la mise", width=15, font=("Arial", 14), command=lambda:param.doublemise())
@@ -97,26 +99,31 @@ def BouclePrincipale(root_menu):
 
     #relatif au jeu --------------------------------------------------
 
-    # distribution 
+
+
+# distribution 
+
     projet_black_jack.jeu_de_carte()
-    for i in range (4):
+    for i in range (projet_black_jack.nb_joueur*2+projet_black_jack.nb_joueur):
         projet_black_jack.carte_a_distribuer()
         projet_black_jack.main_joueur()
+        #print(projet_black_jack.main_du_joueur)
         projet_black_jack.changement_joueur()
 
     #debug main du joueur 
-    print(f"la main du joueur : {projet_black_jack.main_du_joueur}")  
+    print(f"la main du joueur : {projet_black_jack.liste_main_du_joueur[0]}")  
     print (f"la main de jack black {projet_black_jack.main_du_croupier}")
 
     #debug sur jeu direct
-    mainJ_label.config(text=f"main joueur : {projet_black_jack.main_du_joueur}")
+    mainJ_label.config(text=f"main joueur : {projet_black_jack.liste_main_du_joueur[0]}")
 
     #ajouter au score 
-    projet_black_jack.ajouter_au_score(projet_black_jack.somme_valeurs(projet_black_jack.main_du_joueur),score_label)
-    
+    projet_black_jack.ajouter_au_score(projet_black_jack.somme_valeurs(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[0])),score_label)
+    print(projet_black_jack.liste_main_du_joueur[0])
+ 
     # affichage de la main du joueur :
-    img1 = "cartes/" + str(projet_black_jack.main_du_joueur[0]) + ".gif"  # Chemin d'accès à l'image
-    img2 = "cartes/" + str(projet_black_jack.main_du_joueur[1]) + ".gif"  # Chemin d'accès à l'image
+    img1 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[0])[0]) + ".gif"  # Chemin d'accès à l'image
+    img2 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[0])[1]) + ".gif"  # Chemin d'accès à l'image
 
     #redimentionner
     img1_redim = projet_black_jack.redimensionner_image(img1, (80, 120))
