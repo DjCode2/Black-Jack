@@ -2,7 +2,8 @@ import tkinter as tk
 import fonction
 import param
 
-# Crée le menu
+# Crée le menu1
+
 def creer_menu():
     root_menu = tk.Tk()
     root_menu.title("Menu")
@@ -47,8 +48,6 @@ creer_menu()
 #                |_||_|                     \
 #               _|_||_|_      good luck !    \
 #              |___||___|                     \
-
-
 
 
 
