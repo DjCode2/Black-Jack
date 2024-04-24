@@ -8,9 +8,11 @@ from PIL import Image, ImageTk
 import random
 import tkinter as tk
 import numpy as np
-from PIL import Image, ImageTk   
+from PIL import Image, ImageTk  
+import time 
+import param 
 
-def creer_fenetre_perdu(root):
+def creer_fenetre_perdu(root, resultat):
     # Fonction appelée lorsque le bouton est cliqué
     def quitter(root):
         # Afficher une boîte de dialogue pour confirmer la sortie
@@ -19,18 +21,24 @@ def creer_fenetre_perdu(root):
 
     # Créer la fenêtre principale
     fenetre = tk.Tk()
-    fenetre.title("Vous avez perdu")
+    fenetre.title("resultat")
+
+    fenetre.geometry("350x230")
 
     # Étiquette avec le message "Vous avez perdu"
-    etiquette = tk.Label(fenetre, text="Vous avez perdu")
-    etiquette.pack(pady=20)
+    etiquette = tk.Label(fenetre, text=f"Vous avez {resultat}", font=("Arial", 18))
+    etiquette.pack(pady=10)
+
+    # Étiquette avec le message de la mise
+    mise_label = tk.Label(fenetre, text=f"Votre mise était de {param.mise}", font=("Arial", 12))
+    mise_label.pack(pady=15)
 
     # Bouton "Quitter"
-    quitter_button = tk.Button(fenetre, text="Quitter", width=10, font=("Arial", 25), bg="red", command= lambda:quitter(root))
+    quitter_button = tk.Button(fenetre, text="Quitter", width=14, font=("Arial", 25), bg="red", command=lambda: quitter(root))
     quitter_button.pack()
+
     # Boucle principale de la fenêtre
     fenetre.mainloop()
-
 
 def ajouter_au_score(valeur, label):
     label.config(text=f"Score : {valeur}")
@@ -43,23 +51,17 @@ def somme_valeurs(cartes):
 
 
 def redimensionner_image(image, taille):
-    """
-    Redimensionne une image.
-
-    Args:
-        image (tk.PhotoImage): Objet PhotoImage à redimensionner.
-        taille (tuple): Taille de l'image redimensionnée au format (largeur, hauteur).
-
-    Returns:
-        tk.PhotoImage: Objet PhotoImage redimensionné.
-    """
     img_pil = Image.open(image)
     img_pil = img_pil.resize(taille)
     img_redimensionnee = ImageTk.PhotoImage(img_pil)
     return img_redimensionnee
 
-
-
+def somme_derniers_elements(liste_tuples):
+    # Nettoyer la liste
+    liste_nettoyee = nettoyer_cartes(liste_tuples)
+    # Calculer la somme des derniers éléments de chaque tuple
+    somme = sum(t[-1] for t in liste_nettoyee)
+    return somme
 
 def nettoyer_cartes(liste_cartes):
     liste_nettoyee = []
@@ -140,11 +142,11 @@ def main_joueur():
         #print (main_du_croupier)
         #print (score_du_croupier)
     else:
+        print(f"joueur : {joueur}")
         main_du_joueur=liste_main_du_joueur[joueur]
         score_du_joueur=liste_score_du_joueur[joueur]
         main_du_joueur.append(carte)
-        main_du_joueur_netoyer = nettoyer_cartes(main_du_joueur)
-
+        
         #print(main_du_joueur_netoyer)
         score_du_joueur[0]+=carte[2]
         #print (main_du_joueur)
@@ -176,7 +178,7 @@ def action_joueur():
     
     return   
 
-def carte_en_plus(mainJ_label,canvas,root):
+def carte_en_plus(mainJ_label,canvas,root,score_label):
 
     global jeu
     global carte
@@ -230,16 +232,20 @@ def fin_de_jeu(root):
 
     if score_du_joueur[0]>21 or score_du_joueur[0]<score_du_croupier and score_du_croupier<=21 :
         print ("perdu")
-        creer_fenetre_perdu(root)
+        time.sleep(5)
+        creer_fenetre_perdu(root,"perdu" )
     elif score_du_joueur[0]==21 and len(main_du_joueur)==2:
         print ("black jack")
-        creer_fenetre_perdu(root)
+        time.sleep(5)
+        creer_fenetre_perdu(root, "gagner, black jack ! ")
     elif score_du_joueur[0]==score_du_croupier or score_du_joueur[0]==21 and score_du_joueur[0]==score_du_croupier :
         print ("egalité")
-        creer_fenetre_perdu(root)
+        time.sleep(5)
+        creer_fenetre_perdu(root, "fait une egalité")
     else :
         print ("gagner")
-        creer_fenetre_perdu(root)
+        time.sleep(5)
+        creer_fenetre_perdu(root,"gagner")
 
 def generation_main_joueur():
     global nb_joueur
@@ -258,17 +264,4 @@ def generation_score_joueur():
 
     return liste_scrore
 
-# programme principale 
-jeu=[]
-carte=0 
-joueur=0
-nb_joueur=2
-
-liste_main_du_joueur=generation_main_joueur()
-main_du_joueur=[] 
-main_du_croupier=[]
-
-liste_score_du_joueur=generation_score_joueur()
-score_du_joueur=0
-score_du_croupier=0
 
