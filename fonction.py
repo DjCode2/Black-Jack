@@ -88,7 +88,7 @@ def BouclePrincipale(root_menu):
     btn_abandonner = tk.Button(root_jeu, text="Abandonner", width=13, font=("Arial", 15))
     btn_abandonner.place(x=1275, y=760)#recup la moitié de la mise et retour maison 
 
-    btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=lambda:projet_black_jack.carte_en_plus(mainJ_label,canvas))
+    btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=lambda:projet_black_jack.carte_en_plus(mainJ_label,canvas,root_jeu))
     btn_demande_carte.place(x=470, y=750)
 
     btn_double_mise = tk.Button(root_jeu, text="Doubler la mise", width=15, font=("Arial", 14), command=lambda:param.doublemise())
