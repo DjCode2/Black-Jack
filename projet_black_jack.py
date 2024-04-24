@@ -10,6 +10,26 @@ import tkinter as tk
 import numpy as np
 from PIL import Image, ImageTk   
 
+def creer_fenetre_perdu(root):
+    # Fonction appelée lorsque le bouton est cliqué
+    def quitter(root):
+        # Afficher une boîte de dialogue pour confirmer la sortie
+        fenetre.destroy()
+        root.destroy()
+
+    # Créer la fenêtre principale
+    fenetre = tk.Tk()
+    fenetre.title("Vous avez perdu")
+
+    # Étiquette avec le message "Vous avez perdu"
+    etiquette = tk.Label(fenetre, text="Vous avez perdu")
+    etiquette.pack(pady=20)
+
+    # Bouton "Quitter"
+    quitter_button = tk.Button(fenetre, text="Quitter", width=10, font=("Arial", 25), bg="red", command= lambda:quitter(root))
+    quitter_button.pack()
+    # Boucle principale de la fenêtre
+    fenetre.mainloop()
 
 
 def ajouter_au_score(valeur, label):
@@ -156,7 +176,7 @@ def action_joueur():
     
     return   
 
-def carte_en_plus(mainJ_label,canvas):
+def carte_en_plus(mainJ_label,canvas,root):
 
     global jeu
     global carte
@@ -168,6 +188,9 @@ def carte_en_plus(mainJ_label,canvas):
 
     if score_du_joueur[0]<21:
 
+        carte_a_distribuer()
+        main_joueur()
+        
         #print(main_du_joueur)
         mainJ_label.config(text=f"main joueur : {liste_main_du_joueur[0]}")
 
@@ -177,10 +200,10 @@ def carte_en_plus(mainJ_label,canvas):
         print("pipou carte afi")
 
         action_croupier()
-        fin_de_jeu()
+        
 
-    else :
-        fin_de_jeu()
+    
+    fin_de_jeu(root)
     
     return          
 
@@ -197,7 +220,7 @@ def action_croupier():
         main_joueur()
     return 
 
-def fin_de_jeu():
+def fin_de_jeu(root):
 
     global liste_main_du_joueur
     global liste_score_du_joueur
@@ -207,12 +230,16 @@ def fin_de_jeu():
 
     if score_du_joueur[0]>21 or score_du_joueur[0]<score_du_croupier and score_du_croupier<=21 :
         print ("perdu")
+        creer_fenetre_perdu(root)
     elif score_du_joueur[0]==21 and len(main_du_joueur)==2:
         print ("black jack")
+        creer_fenetre_perdu(root)
     elif score_du_joueur[0]==score_du_croupier or score_du_joueur[0]==21 and score_du_joueur[0]==score_du_croupier :
         print ("egalité")
+        creer_fenetre_perdu(root)
     else :
         print ("gagner")
+        creer_fenetre_perdu(root)
 
 def generation_main_joueur():
     global nb_joueur
