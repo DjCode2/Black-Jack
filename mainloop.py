@@ -17,8 +17,6 @@ def creer_menu():
     image_label = tk.Label(root_menu, image=photo)
     image_label.pack()
 
-    # Définir la taille de la fenêtre indépendamment du contenu
-
     # Définir les boutons du menu
     jouer_button = tk.Button(root_menu, text="Jouer", font=("Arial", 25), width=10, command=lambda: param.paramètre(root_menu))
     quitter_button = tk.Button(root_menu, text="Quitter", width=10, font=("Arial", 25), bg="red", command=root_menu.quit)
@@ -48,6 +46,10 @@ creer_menu()
 #                |_||_|                     \
 #               _|_||_|_      good luck !    \
 #              |___||___|                     \
+
+
+
+
 
 
 
