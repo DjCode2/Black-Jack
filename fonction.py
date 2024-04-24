@@ -37,9 +37,20 @@ def quitter(root_jeu):
 
 
 
+def doubler_mise(mise_label, mise, root_jeu):#mise variable global? + ajouter variable banque_joueur qui sera la totalité des jetons disponibles 
+    param.mise = mise*2 
+    mise_label.configure(text=f"Mise: {mise*2}")
+    projet_black_jack.fin_de_jeu(root_jeu)
 
-def doubler_mise(score_label):#mise variable global? + ajouter variable banque_joueur qui sera la totalité des jetons disponibles 
-    pass
+def abandonenr(mise_label,mise,root):
+    param.mise = mise/2
+    mise = mise/2
+    mise_label.configure(text=f"Mise: {mise}")
+    projet_black_jack.fin_de_jeu(root)
+
+def garder_main(mise_label,mise,root):
+    mise_label.configure(text=f"Mise: {mise}")
+    projet_black_jack.fin_de_jeu(root)
 
 def affiche_mainJ(mainj,label):
 
@@ -76,6 +87,9 @@ def BouclePrincipale(root_menu):
     score_label = tk.Label(root_jeu, text=f"Score: {score}", font=("Arial", 16))
     score_label.place(x=20, y=20)  # Ajuster la position selon vos besoins
 
+    mise_label = tk.Label(root_jeu, text=f"Mise: {param.mise}", font=("Arial", 16))
+    mise_label.place(x=20, y=60)  # Ajuster la position selon vos besoins
+
     mainJ_label = tk.Label(root_jeu, text=f"main joueur: {mainJ}", font=("Arial", 16))
     mainJ_label.place(x=500, y=700)  # Ajuster la position selon vos besoins
 
@@ -85,16 +99,16 @@ def BouclePrincipale(root_menu):
     btn_quit = tk.Button(root_jeu, text="Quitter", width=13, font=("Arial", 15), command=lambda: quitter(root_jeu))
     btn_quit.place(x=1282, y=52)
 
-    btn_abandonner = tk.Button(root_jeu, text="Abandonner", width=13, font=("Arial", 15))
-    btn_abandonner.place(x=1275, y=760)#recup la moitié de la mise et retour maison 
+    btn_abandonner = tk.Button(root_jeu, text="Abandonner", width=13, font=("Arial", 15),command=lambda: abandonenr(mise_label, param.mise, root_jeu))
+    btn_abandonner.place(x=1050, y=750)#recup la moitié de la mise et retour maison 
 
-    btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=lambda:projet_black_jack.carte_en_plus(mainJ_label,canvas,root_jeu))
+    btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=lambda:projet_black_jack.carte_en_plus(mainJ_label,canvas,root_jeu,score_label))
     btn_demande_carte.place(x=470, y=750)
 
-    btn_double_mise = tk.Button(root_jeu, text="Doubler la mise", width=15, font=("Arial", 14), command=lambda:param.doublemise())
+    btn_double_mise = tk.Button(root_jeu, text="Doubler la mise", width=15, font=("Arial", 14), command=lambda:doubler_mise(mise_label, param.mise, root_jeu))
     btn_double_mise.place(x=650, y=750)
 
-    btn_garder_main = tk.Button(root_jeu, text="Garder la main", width=15, font=("Arial", 14), command=projet_black_jack.fin_de_jeu)
+    btn_garder_main = tk.Button(root_jeu, text="Garder la main", width=15, font=("Arial", 14), command=lambda: garder_main(mise_label, param.mise, root_jeu))
     btn_garder_main.place(x=830, y=750)
 
     #relatif au jeu --------------------------------------------------
@@ -103,12 +117,37 @@ def BouclePrincipale(root_menu):
 
 # distribution 
 
+    #projet_black_jack.nb_joueur = param.nb_joueurs
+
+    # programme principale 
+    projet_black_jack.jeu=[]
+    projet_black_jack.carte=0 
+    projet_black_jack.joueur=0
+    projet_black_jack.nb_joueur= param.nb_joueurs
+    projet_black_jack.mainjoueurpnj = []
+
+    projet_black_jack.liste_main_du_joueur=projet_black_jack.generation_main_joueur()
+    projet_black_jack.main_du_joueur=[] 
+    projet_black_jack.main_du_croupier=[]
+
+    projet_black_jack.liste_score_du_joueur=projet_black_jack.generation_score_joueur()
+    projet_black_jack.score_du_joueur=0
+    projet_black_jack.score_du_croupier=0
+
+    print(f"nb joueur maiwan : {projet_black_jack.nb_joueur}")
+    print(f"nb joueur maiwan : {projet_black_jack.nb_joueur}")
+
     projet_black_jack.jeu_de_carte()
     for i in range (projet_black_jack.nb_joueur*2+projet_black_jack.nb_joueur):
         projet_black_jack.carte_a_distribuer()
         projet_black_jack.main_joueur()
         #print(projet_black_jack.main_du_joueur)
         projet_black_jack.changement_joueur()
+
+    if projet_black_jack.nb_joueur >= 3 : 
+        projet_black_jack.liste_main_du_joueur[0].pop(-1)
+        projet_black_jack.liste_main_du_joueur[0].pop(-1)
+
 
     #debug main du joueur 
     print(f"la main du joueur : {projet_black_jack.liste_main_du_joueur[0]}")  
@@ -121,7 +160,7 @@ def BouclePrincipale(root_menu):
     projet_black_jack.ajouter_au_score(projet_black_jack.somme_valeurs(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[0])),score_label)
     print(projet_black_jack.liste_main_du_joueur[0])
  
-    # affichage de la main du joueur :
+    # affichage de la main du joueur : --------------
     img1 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[0])[0]) + ".gif"  # Chemin d'accès à l'image
     img2 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[0])[1]) + ".gif"  # Chemin d'accès à l'image
 
@@ -143,6 +182,19 @@ def BouclePrincipale(root_menu):
     # Afficher les images redimensionnées sur le canevas
     canvas.create_image(673, 290, anchor="nw", image=img1_redim_croup)
     canvas.create_image(700, 290, anchor="nw", image=img2_redim_croup)
+
+    if projet_black_jack.nb_joueur >= 3 : 
+            # affichage de la main du 2 eme joueur : --------------
+        img1pnj = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[2])[0]) + ".gif"  # Chemin d'accès à l'image
+        img2pnj = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[2])[1]) + ".gif"  # Chemin d'accès à l'image
+
+        #redimentionner
+        img1_redim_pnj = projet_black_jack.redimensionner_image(img1pnj, (80, 120))
+        img2_redim_pnj = projet_black_jack.redimensionner_image(img2pnj, (80, 120))
+
+        # Afficher les images redimensionnées sur le canevas
+        canvas.create_image(900, 495, anchor="nw", image=img1_redim_pnj)
+        canvas.create_image(940, 495, anchor="nw", image=img2_redim_pnj)
 
 
     root_jeu.mainloop()
