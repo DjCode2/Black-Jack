@@ -195,17 +195,19 @@ def carte_en_plus(mainJ_label,canvas,root,score_label):
         
         #print(main_du_joueur)
         mainJ_label.config(text=f"main joueur : {liste_main_du_joueur[0]}")
+        score_label.config(text=f"Score: {score_du_joueur[0]}")
 
         img = "cartes/" + str(nettoyer_cartes(liste_main_du_joueur[0])[-1]) + ".gif"  # Chemin d'accès à l'image
         img_redim = redimensionner_image(img, (80, 120))
         canvas.create_image(730, 495, anchor="nw", image=img_redim)
         print("pipou carte afi")
-
-        action_croupier()
+        canvas.update()
+        canvas.lift() # créé erreur, pas dérengeante pour l'instant, a voir a l'avenir 
+        #action_croupier()
         
 
     
-    fin_de_jeu(root)
+    #fin_de_jeu(root)
     
     return          
 
