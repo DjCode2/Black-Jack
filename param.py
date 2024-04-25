@@ -21,7 +21,7 @@ def paramètre(root_menu):
     fenetre.pack(padx=40, pady=10)
 
     # Entrée pour choisir le nombre de joueurs
-    label_nb_joueurs = tk.Label(fenetre, text="Nombre de joueurs souhaité (entre 2 et 3):")
+    label_nb_joueurs = tk.Label(fenetre, text="Nombre de joueurs souhaité (entre 1 et 5):")
     label_nb_joueurs.grid(row=0, column=0, padx=10, pady=5)
     entree_nb_joueurs = tk.Entry(fenetre)
     entree_nb_joueurs.grid(row=0, column=1, padx=10, pady=5)
