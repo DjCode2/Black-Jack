@@ -263,5 +263,3 @@ def generation_score_joueur():
         liste_scrore.append([0])
 
     return liste_scrore
-
-
