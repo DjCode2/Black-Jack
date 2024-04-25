@@ -138,15 +138,19 @@ def BouclePrincipale(root_menu):
     print(f"nb joueur maiwan : {projet_black_jack.nb_joueur}")
 
     projet_black_jack.jeu_de_carte()
-    for i in range (projet_black_jack.nb_joueur*2+projet_black_jack.nb_joueur):
+    for i in range (projet_black_jack.nb_joueur*2+2):
         projet_black_jack.carte_a_distribuer()
         projet_black_jack.main_joueur()
         #print(projet_black_jack.main_du_joueur)
         projet_black_jack.changement_joueur()
 
-    if projet_black_jack.nb_joueur >= 3 : 
-        projet_black_jack.liste_main_du_joueur[0].pop(-1)
-        projet_black_jack.liste_main_du_joueur[0].pop(-1)
+    #if projet_black_jack.nb_joueur >= 2 : 
+    #    projet_black_jack.liste_main_du_joueur[0].pop(-1)
+    #    projet_black_jack.liste_main_du_joueur[0].pop(-1)
+
+    #if projet_black_jack.nb_joueur >= 3 : 
+    #    projet_black_jack.liste_main_du_joueur[0].pop(-1)
+    #    projet_black_jack.liste_main_du_joueur[0].pop(-1)
 
 
     #debug main du joueur 
@@ -183,18 +187,61 @@ def BouclePrincipale(root_menu):
     canvas.create_image(673, 290, anchor="nw", image=img1_redim_croup)
     canvas.create_image(700, 290, anchor="nw", image=img2_redim_croup)
 
-    if projet_black_jack.nb_joueur >= 3 : 
+    if projet_black_jack.nb_joueur >= 2 : 
             # affichage de la main du 2 eme joueur : --------------
-        img1pnj = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[2])[0]) + ".gif"  # Chemin d'accès à l'image
-        img2pnj = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[2])[1]) + ".gif"  # Chemin d'accès à l'image
+        img1pnj1 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[1])[0]) + ".gif"  # Chemin d'accès à l'image
+        img2pnj1 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[1])[1]) + ".gif"  # Chemin d'accès à l'image
 
         #redimentionner
-        img1_redim_pnj = projet_black_jack.redimensionner_image(img1pnj, (80, 120))
-        img2_redim_pnj = projet_black_jack.redimensionner_image(img2pnj, (80, 120))
+        img1_redim_pnj1 = projet_black_jack.redimensionner_image(img1pnj1, (80, 120))
+        img2_redim_pnj1 = projet_black_jack.redimensionner_image(img2pnj1, (80, 120))
 
         # Afficher les images redimensionnées sur le canevas
-        canvas.create_image(900, 495, anchor="nw", image=img1_redim_pnj)
-        canvas.create_image(940, 495, anchor="nw", image=img2_redim_pnj)
+        canvas.create_image(900, 460, anchor="nw", image=img1_redim_pnj1)
+        canvas.create_image(927, 460, anchor="nw", image=img2_redim_pnj1)
+
+    if projet_black_jack.nb_joueur >= 3 : 
+        # affichage de la main du 3 eme joueur : --------------
+        img1pnj2 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[2])[0]) + ".gif"  # Chemin d'accès à l'image
+        img2pnj2 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[2])[1]) + ".gif"  # Chemin d'accès à l'image
+
+        #redimentionner
+        img1_redim_pnj2 = projet_black_jack.redimensionner_image(img1pnj2, (80, 120))
+        img2_redim_pnj2 = projet_black_jack.redimensionner_image(img2pnj2, (80, 120))
+
+        # Afficher les images redimensionnées sur le canevas
+        canvas.create_image(450, 460, anchor="nw", image=img2_redim_pnj2)
+        canvas.create_image(487, 460, anchor="nw", image=img1_redim_pnj2)
+        
+
+    if projet_black_jack.nb_joueur >= 4 : 
+        # affichage de la main du 3 eme joueur : --------------
+        img1pnj3 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[3])[0]) + ".gif"  # Chemin d'accès à l'image
+        img2pnj3 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[3])[1]) + ".gif"  # Chemin d'accès à l'image
+
+        #redimentionner
+        img1_redim_pnj3 = projet_black_jack.redimensionner_image(img1pnj3, (80, 120))
+        img2_redim_pnj3 = projet_black_jack.redimensionner_image(img2pnj3, (80, 120))
+
+        # Afficher les images redimensionnées sur le canevas
+        canvas.create_image(1080, 380, anchor="nw", image=img1_redim_pnj3)
+        canvas.create_image(1107, 380, anchor="nw", image=img2_redim_pnj3)
+        
+
+    if projet_black_jack.nb_joueur >= 5 : 
+        # affichage de la main du 3 eme joueur : --------------
+        img1pnj4 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[4])[0]) + ".gif"  # Chemin d'accès à l'image
+        img2pnj4 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[4])[1]) + ".gif"  # Chemin d'accès à l'image
+
+        #redimentionner
+        img1_redim_pnj4 = projet_black_jack.redimensionner_image(img1pnj4, (80, 120))
+        img2_redim_pnj4 = projet_black_jack.redimensionner_image(img2pnj4, (80, 120))
+
+        # Afficher les images redimensionnées sur le canevas
+        canvas.create_image(300, 380, anchor="nw", image=img1_redim_pnj4)
+        canvas.create_image(327, 380, anchor="nw", image=img2_redim_pnj4)
+        
+
 
 
     root_jeu.mainloop()
