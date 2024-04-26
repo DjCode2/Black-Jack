@@ -1,5 +1,4 @@
 import tkinter as tk
-import fonction
 import param
 
 # Crée le menu1
@@ -7,7 +6,6 @@ import param
 def creer_menu():
     root_menu = tk.Tk()
     root_menu.title("Menu")
-
     largeur_fenetre_menu = 1230
     hauteur_fenetre_menu = 762
     root_menu.resizable(False, False)
@@ -46,21 +44,3 @@ creer_menu()
 #                |_||_|                     \
 #               _|_||_|_      good luck !    \
 #              |___||___|                     \
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
