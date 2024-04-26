@@ -23,7 +23,7 @@ def paramètre(root_menu):
     root_menu.destroy()
     root_param = tk.Tk()
     root_param.title("Choix des joueurs et de la mise")
-    root_param.geometry("500x270")
+    root_param.geometry("500x200")
 
     # Style
     style = ttk.Style()
@@ -35,7 +35,7 @@ def paramètre(root_menu):
     fenetre.pack(expand=True, fill='both', anchor='center')
 
     # Entrée pour choisir le nombre de joueurs
-    label_nb_joueurs = ttk.Label(fenetre, text="Nombre de joueurs souhaité (entre 1 et 5):")
+    label_nb_joueurs = ttk.Label(fenetre, text="Nombre de joueurs souhaité (entre 1 et 7):")
     label_nb_joueurs.grid(row=0, column=0, padx=10, pady=5, sticky='w')
     entree_nb_joueurs = ttk.Entry(fenetre)
     entree_nb_joueurs.grid(row=0, column=1, padx=10, pady=5)
