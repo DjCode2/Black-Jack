@@ -11,7 +11,7 @@ def creer_menu():
     root_menu.resizable(False, False)
 
     # Charger l'image de fond
-    photo = tk.PhotoImage(file="BlackjackMenu.png")
+    photo = tk.PhotoImage(file="BlackjackMenuMeilleur.png")
     image_label = tk.Label(root_menu, image=photo)
     image_label.pack()
 
