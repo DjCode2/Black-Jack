@@ -1,16 +1,11 @@
 # projet black jack
 """Clément, Théo, Maïwenn"""
 
-import tkinter as tk
-from tkinter import ttk
-from tkinter import messagebox
 from PIL import Image, ImageTk
 import random
 import tkinter as tk
-import numpy as np
 from PIL import Image, ImageTk  
 import time 
-import param 
 import fenetreperdu
 
 
@@ -106,18 +101,14 @@ def main_joueur():
     if joueur=="croupier":
         main_du_croupier.append(carte)
         score_du_croupier+=carte[2]
-        #print (main_du_croupier)
-        #print (score_du_croupier)
     else:
-        print(f"joueur : {joueur}")
         main_du_joueur=liste_main_du_joueur[joueur]
         score_du_joueur=liste_score_du_joueur[joueur]
         main_du_joueur.append(carte)
         
-        #print(main_du_joueur_netoyer)
+
         score_du_joueur[0]+=carte[2]
-        #print (main_du_joueur)
-        #print (score_du_joueur)
+
         liste_main_du_joueur[joueur].append(main_du_joueur)
         liste_score_du_joueur[joueur]=score_du_joueur
     return
@@ -134,7 +125,6 @@ def action_joueur():
 
     if score_du_joueur[0]<21:
         carte_sup=input("saisissez 'carte' si vous souahiter une carte en plus")
-        #assert carte_sup=="carte"
         if carte_sup=="carte":
             carte_supplementaire=int(input("saisissez le nombre de carte en plus"))
             for i in range (carte_supplementaire):
@@ -160,7 +150,6 @@ def carte_en_plus(mainJ_label,canvas,root,score_label,carte_dos):
         carte_a_distribuer()
         main_joueur()
         
-        #print(main_du_joueur)
         mainJ_label.config(text=f"main joueur : {liste_main_du_joueur[0]}")
         score_label.config(text=f"Score: {score_du_joueur[0]}")
 
