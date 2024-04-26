@@ -20,13 +20,12 @@ def affiche_carte_croup (canvas,carte_dos):
     canvas.create_image(700, 290, anchor="nw", image=img2_redim_croup)
 
 
-def tour_des_pnj(canvas,carte_dos):
+def tour_des_pnj(canvas,carte_dos):#plus tards belec 
     canvas.delete(carte_dos)
     img2croup = "cartes/" + str(projet_black_jack.main_du_croupier[1]) + ".gif"  # Chemin d'accès à l'image
     img2_redim_croup = projet_black_jack.redimensionner_image(img2croup, (80, 120))
     canvas.create_image(700, 290, anchor="nw", image=img2_redim_croup)
-    canvas.lift() # créé erreur, pas dérengeante pour l'instant, a voir a l'avenir 
-
+   
 def quitter_menu(root_menu):
     root_menu.quit()
 
@@ -42,29 +41,33 @@ def doubler_mise(mise_label, mise, root_jeu,canvas,img_dos):#mise variable globa
     joueur_joue = False
 
     affiche_carte_croup(canvas,img_dos)
-    #projet_black_jack.fin_de_jeu(root_jeu)
+    projet_black_jack.fin_de_jeu(root_jeu)
 
-def abandonenr(mise_label,mise,canvas,img_dos):
+def abandonner(mise_label,mise,canvas,img_dos,root):
     global joueur_joue
     param.mise = mise/2
     mise = mise/2
     mise_label.configure(text=f"Mise: {mise}")
-    #projet_black_jack.fin_de_jeu(root)
     affiche_carte_croup(canvas,img_dos)
+    projet_black_jack.fin_de_jeu(root)
+    
 
     joueur_joue = False
 
-def garder_main(mise_label,mise,canvas,img_dos):
+def garder_main(mise_label,mise,canvas,img_dos,root_jeu):
     global joueur_joue
     mise_label.configure(text=f"Mise: {mise}")
     affiche_carte_croup(canvas,img_dos)
-
     joueur_joue = False
+    projet_black_jack.fin_de_jeu(root_jeu)
+
+
 def demander_carte(mainJ_label,canvas,root_jeu,score_label,img_dos):
     joueur_joue = False
 
-    #affiche_carte_croup (canvas,img_dos)
+    affiche_carte_croup (canvas,img_dos)
     projet_black_jack.carte_en_plus(mainJ_label,canvas,root_jeu,score_label,img_dos)
+    projet_black_jack.fin_de_jeu(root_jeu)
 
 def BouclePrincipale(root_menu):
     # Fermer la fenêtre de menu
@@ -106,7 +109,7 @@ def BouclePrincipale(root_menu):
     btn_quit = tk.Button(root_jeu, text="Quitter", width=13, font=("Arial", 15), command=lambda: quitter(root_jeu))
     btn_quit.place(x=1282, y=8)
 
-    btn_abandonner = tk.Button(root_jeu, text="Abandonner", width=13, font=("Arial", 15),command=lambda: abandonenr(mise_label, param.mise, canvas,img_dos_redim_croup))
+    btn_abandonner = tk.Button(root_jeu, text="Abandonner", width=13, font=("Arial", 15),command=lambda: abandonner(mise_label, param.mise, canvas,img_dos_redim_croup,root_jeu))
     btn_abandonner.place(x=1050, y=750)#recup la moitié de la mise et retour maison 
 
     btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=lambda:demander_carte(mainJ_label,canvas,root_jeu,score_label,img_dos_redim_croup))
