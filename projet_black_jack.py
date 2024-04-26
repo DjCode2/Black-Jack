@@ -11,34 +11,8 @@ import numpy as np
 from PIL import Image, ImageTk  
 import time 
 import param 
+import fenetreperdu
 
-def creer_fenetre_perdu(root, resultat):
-    # Fonction appelée lorsque le bouton est cliqué
-    def quitter(root):
-        # Afficher une boîte de dialogue pour confirmer la sortie
-        fenetre.destroy()
-        root.destroy()
-
-    # Créer la fenêtre principale
-    fenetre = tk.Tk()
-    fenetre.title("resultat")
-
-    fenetre.geometry("350x230")
-
-    # Étiquette avec le message "Vous avez perdu"
-    etiquette = tk.Label(fenetre, text=f"Vous avez {resultat}", font=("Arial", 18))
-    etiquette.pack(pady=10)
-
-    # Étiquette avec le message de la mise
-    mise_label = tk.Label(fenetre, text=f"Votre mise était de {param.mise}", font=("Arial", 12))
-    mise_label.pack(pady=15)
-
-    # Bouton "Quitter"
-    quitter_button = tk.Button(fenetre, text="Quitter", width=14, font=("Arial", 25), bg="red", command=lambda: quitter(root))
-    quitter_button.pack()
-
-    # Boucle principale de la fenêtre
-    fenetre.mainloop()
 
 def ajouter_au_score(valeur, label):
     label.config(text=f"Score : {valeur}")
@@ -55,13 +29,6 @@ def redimensionner_image(image, taille):
     img_pil = img_pil.resize(taille)
     img_redimensionnee = ImageTk.PhotoImage(img_pil)
     return img_redimensionnee
-
-def somme_derniers_elements(liste_tuples):
-    # Nettoyer la liste
-    liste_nettoyee = nettoyer_cartes(liste_tuples)
-    # Calculer la somme des derniers éléments de chaque tuple
-    somme = sum(t[-1] for t in liste_nettoyee)
-    return somme
 
 def nettoyer_cartes(liste_cartes):
     liste_nettoyee = []
@@ -178,7 +145,7 @@ def action_joueur():
     
     return   
 
-def carte_en_plus(mainJ_label,canvas,root,score_label):
+def carte_en_plus(mainJ_label,canvas,root,score_label,carte_dos):
 
     global jeu
     global carte
@@ -201,6 +168,13 @@ def carte_en_plus(mainJ_label,canvas,root,score_label):
         img_redim = redimensionner_image(img, (80, 120))
         canvas.create_image(730, 495, anchor="nw", image=img_redim)
         print("pipou carte afi")
+
+        canvas.delete(carte_dos)
+        img2croup = "cartes/" + str(main_du_croupier[1]) + ".gif"  # Chemin d'accès à l'image
+        img2_redim_croup = redimensionner_image(img2croup, (80, 120))
+        canvas.create_image(700, 290, anchor="nw", image=img2_redim_croup)
+
+
         canvas.update()
         canvas.lift() # créé erreur, pas dérengeante pour l'instant, a voir a l'avenir 
         #action_croupier()
@@ -235,19 +209,19 @@ def fin_de_jeu(root):
     if score_du_joueur[0]>21 or score_du_joueur[0]<score_du_croupier and score_du_croupier<=21 :
         print ("perdu")
         time.sleep(5)
-        creer_fenetre_perdu(root,"perdu" )
+        fenetreperdu.creer_fenetre_perdu(root,"perdu")
     elif score_du_joueur[0]==21 and len(main_du_joueur)==2:
         print ("black jack")
         time.sleep(5)
-        creer_fenetre_perdu(root, "gagner, black jack ! ")
+        fenetreperdu.creer_fenetre_perdu(root, "gagner, black jack ! ")
     elif score_du_joueur[0]==score_du_croupier or score_du_joueur[0]==21 and score_du_joueur[0]==score_du_croupier :
         print ("egalité")
         time.sleep(5)
-        creer_fenetre_perdu(root, "fait une egalité")
+        fenetreperdu.creer_fenetre_perdu(root, "fait une egalité")
     else :
         print ("gagner")
         time.sleep(5)
-        creer_fenetre_perdu(root,"gagner")
+        fenetreperdu.creer_fenetre_perdu(root,"gagner")
 
 def generation_main_joueur():
     global nb_joueur
