@@ -4,7 +4,6 @@
 import tkinter as tk
 import tkinter as tk
 import subprocess #eviter import circulaire
-
 import param 
 
 def creer_fenetre_perdu(root, resultat):
@@ -15,8 +14,9 @@ def creer_fenetre_perdu(root, resultat):
         subprocess.call(["python", "mainloop.py"]) #eviter les imports circulaires
 
     def quitter(root):
-        root.destroy()
         fenetre.destroy()
+        root.destroy()
+        
 
 
         
@@ -43,6 +43,11 @@ def creer_fenetre_perdu(root, resultat):
     bouton_quitter = tk.Button(fenetre, text="Quitter", width=14, font=("Arial", 25), bg="red", command=lambda: quitter(root))
     bouton_quitter.pack()
 
+
+
+
+    # Boucle principale de la fenêtre
+    fenetre.mainloop()
 
 
 
