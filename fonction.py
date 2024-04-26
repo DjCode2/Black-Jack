@@ -1,76 +1,70 @@
 #fonction.py
 import tkinter as tk
-from tkinter import ttk
 from tkinter import messagebox
-from PIL import Image, ImageTk
-import datetime
 import projet_black_jack
 import param
-import json
+
 
 banque_joueur=0
 score=0
 mainJ = ""
 joueur_joue = True
+
+compt_carte_sup = 0
+
+
+def affiche_carte_croup (canvas,carte_dos):
+    canvas.delete(carte_dos)
+    img2croup = "cartes/" + str(projet_black_jack.main_du_croupier[1]) + ".gif"  # Chemin d'accès à l'image
+    img2_redim_croup = projet_black_jack.redimensionner_image(img2croup, (80, 120))
+    canvas.create_image(700, 290, anchor="nw", image=img2_redim_croup)
+
+
+def tour_des_pnj(canvas,carte_dos):
+    canvas.delete(carte_dos)
+    img2croup = "cartes/" + str(projet_black_jack.main_du_croupier[1]) + ".gif"  # Chemin d'accès à l'image
+    img2_redim_croup = projet_black_jack.redimensionner_image(img2croup, (80, 120))
+    canvas.create_image(700, 290, anchor="nw", image=img2_redim_croup)
+    canvas.lift() # créé erreur, pas dérengeante pour l'instant, a voir a l'avenir 
+
 def quitter_menu(root_menu):
     root_menu.quit()
-
-def sauvegarder(score):
-    # chopper la date 
-    date_heure_actuelles = datetime.datetime.now()
-    date_formatee = date_heure_actuelles.strftime("%Y-%m-%d")
-    heure_formatee = date_heure_actuelles.strftime("%H:%M:%S")
-    
-    donnees = {
-        "score": score,
-        "date": (date_formatee, heure_formatee)
-    }
-    
-    # Enregistrement des données
-    with open("donnees.json", "w") as fichier:
-        json.dump(donnees, fichier)
 
 def quitter(root_jeu):
 
     if messagebox.askokcancel("black jack juge you", "Êtes-vous sûr de vouloir quitter ? "):
         root_jeu.destroy()
 
-
-
-def doubler_mise(mise_label, mise, root_jeu):#mise variable global? + ajouter variable banque_joueur qui sera la totalité des jetons disponibles 
+def doubler_mise(mise_label, mise, root_jeu,canvas,img_dos):#mise variable global? + ajouter variable banque_joueur qui sera la totalité des jetons disponibles 
     global joueur_joue
     param.mise = mise*2 
     mise_label.configure(text=f"Mise: {mise*2}")
-    #projet_black_jack.fin_de_jeu(root_jeu)
-
     joueur_joue = False
 
-def abandonenr(mise_label,mise,root):
+    affiche_carte_croup(canvas,img_dos)
+    #projet_black_jack.fin_de_jeu(root_jeu)
+
+def abandonenr(mise_label,mise,canvas,img_dos):
     global joueur_joue
     param.mise = mise/2
     mise = mise/2
     mise_label.configure(text=f"Mise: {mise}")
     #projet_black_jack.fin_de_jeu(root)
+    affiche_carte_croup(canvas,img_dos)
 
     joueur_joue = False
 
-def garder_main(mise_label,mise,root):
+def garder_main(mise_label,mise,canvas,img_dos):
     global joueur_joue
     mise_label.configure(text=f"Mise: {mise}")
-    #projet_black_jack.fin_de_jeu(root)
+    affiche_carte_croup(canvas,img_dos)
 
     joueur_joue = False
-def demander_carte(mainJ_label,canvas,root_jeu,score_label):
+def demander_carte(mainJ_label,canvas,root_jeu,score_label,img_dos):
     joueur_joue = False
-    
-    projet_black_jack.carte_en_plus(mainJ_label,canvas,root_jeu,score_label)
 
-
-
-
-def affiche_mainJ(mainj,label):
-
-    label.config(text=f"Score : {mainj}")
+    #affiche_carte_croup (canvas,img_dos)
+    projet_black_jack.carte_en_plus(mainJ_label,canvas,root_jeu,score_label,img_dos)
 
 def BouclePrincipale(root_menu):
     # Fermer la fenêtre de menu
@@ -107,24 +101,21 @@ def BouclePrincipale(root_menu):
     mise_label.place(x=20, y=60)  # Ajuster la position selon vos besoins
 
     mainJ_label = tk.Label(root_jeu, text=f"main joueur: {mainJ}", font=("Arial", 16))
-    mainJ_label.place(x=500, y=700)  # Ajuster la position selon vos besoins
-
-    btn_save = tk.Button(root_jeu, text="Sauvegarder", width=13, font=("Arial", 15), command=lambda: sauvegarder(score))
-    btn_save.place(x=1282, y=7)
+    mainJ_label.place(x=500, y=700)  # Ajuster la position selon vos besoinsSZ
 
     btn_quit = tk.Button(root_jeu, text="Quitter", width=13, font=("Arial", 15), command=lambda: quitter(root_jeu))
-    btn_quit.place(x=1282, y=52)
+    btn_quit.place(x=1282, y=8)
 
-    btn_abandonner = tk.Button(root_jeu, text="Abandonner", width=13, font=("Arial", 15),command=lambda: abandonenr(mise_label, param.mise, root_jeu))
+    btn_abandonner = tk.Button(root_jeu, text="Abandonner", width=13, font=("Arial", 15),command=lambda: abandonenr(mise_label, param.mise, canvas,img_dos_redim_croup))
     btn_abandonner.place(x=1050, y=750)#recup la moitié de la mise et retour maison 
 
-    btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=lambda:demander_carte(mainJ_label,canvas,root_jeu,score_label))
+    btn_demande_carte = tk.Button(root_jeu, text="Demander carte(s)", width=15, font=("Arial", 14), command=lambda:demander_carte(mainJ_label,canvas,root_jeu,score_label,img_dos_redim_croup))
     btn_demande_carte.place(x=470, y=750)
 
-    btn_double_mise = tk.Button(root_jeu, text="Doubler la mise", width=15, font=("Arial", 14), command=lambda:doubler_mise(mise_label, param.mise, root_jeu))
+    btn_double_mise = tk.Button(root_jeu, text="Doubler la mise", width=15, font=("Arial", 14), command=lambda:doubler_mise(mise_label, param.mise, root_jeu,canvas,img_dos_redim_croup))
     btn_double_mise.place(x=650, y=750)
 
-    btn_garder_main = tk.Button(root_jeu, text="Garder la main", width=15, font=("Arial", 14), command=lambda: garder_main(mise_label, param.mise, root_jeu))
+    btn_garder_main = tk.Button(root_jeu, text="Garder la main", width=15, font=("Arial", 14), command=lambda: garder_main(mise_label, param.mise, root_jeu,canvas,img_dos_redim_croup))
     btn_garder_main.place(x=830, y=750)
 
     #relatif au jeu --------------------------------------------------
@@ -186,14 +177,16 @@ def BouclePrincipale(root_menu):
 
     #afficher main croupier 
     img1croup = "cartes/" + str(projet_black_jack.main_du_croupier[0]) + ".gif"  # Chemin d'accès à l'image
-    img2croup = "cartes/" + str(projet_black_jack.main_du_croupier[1]) + ".gif"  # Chemin d'accès à l'image
-
     img1_redim_croup = projet_black_jack.redimensionner_image(img1croup, (80, 120))
-    img2_redim_croup = projet_black_jack.redimensionner_image(img2croup, (80, 120))
 
+    img_dos_croup = "cartes/" + "dos_carte" + ".png"  # Chemin d'accès à l'image
+    img_dos_redim_croup = projet_black_jack.redimensionner_image(img_dos_croup, (80, 120))
     # Afficher les images redimensionnées sur le canevas
     canvas.create_image(673, 290, anchor="nw", image=img1_redim_croup)
-    canvas.create_image(700, 290, anchor="nw", image=img2_redim_croup)
+    canvas.create_image(700, 290, anchor="nw", image=img_dos_redim_croup)
+   
+   
+
 
     if projet_black_jack.nb_joueur >= 2 : 
         # affichage de la main du 2 eme joueur : --------------
@@ -246,8 +239,34 @@ def BouclePrincipale(root_menu):
         img2_redim_pnj4 = projet_black_jack.redimensionner_image(img2pnj4, (80, 120))
 
         # Afficher les images redimensionnées sur le canevas
-        canvas.create_image(300, 380, anchor="nw", image=img1_redim_pnj4)
-        canvas.create_image(327, 380, anchor="nw", image=img2_redim_pnj4)
+        canvas.create_image(260, 380, anchor="nw", image=img1_redim_pnj4)
+        canvas.create_image(287, 380, anchor="nw", image=img2_redim_pnj4)
+
+    if projet_black_jack.nb_joueur >= 6 : 
+        # affichage de la main du 3 eme joueur : --------------
+        img1pnj5 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[5])[0]) + ".gif"  # Chemin d'accès à l'image
+        img2pnj5 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[5])[1]) + ".gif"  # Chemin d'accès à l'image
+
+        #redimentionner
+        img1_redim_pnj5 = projet_black_jack.redimensionner_image(img1pnj5, (80, 120))
+        img2_redim_pnj5 = projet_black_jack.redimensionner_image(img2pnj5, (80, 120))
+
+        # Afficher les images redimensionnées sur le canevas
+        canvas.create_image(1260, 250, anchor="nw", image=img1_redim_pnj5)
+        canvas.create_image(1287, 250, anchor="nw", image=img2_redim_pnj5)
+
+    if projet_black_jack.nb_joueur >= 7 : 
+        # affichage de la main du 3 eme joueur : --------------
+        img1pnj6 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[5])[0]) + ".gif"  # Chemin d'accès à l'image
+        img2pnj6 = "cartes/" + str(projet_black_jack.nettoyer_cartes(projet_black_jack.liste_main_du_joueur[5])[1]) + ".gif"  # Chemin d'accès à l'image
+
+        #redimentionner
+        img1_redim_pnj6 = projet_black_jack.redimensionner_image(img1pnj6, (80, 120))
+        img2_redim_pnj6 = projet_black_jack.redimensionner_image(img2pnj6, (80, 120))
+
+        # Afficher les images redimensionnées sur le canevas
+        canvas.create_image(100, 250, anchor="nw", image=img1_redim_pnj6)
+        canvas.create_image(127, 250, anchor="nw", image=img2_redim_pnj6)
     
     if joueur_joue == False : 
         #ici on fera joueur les IA, joeur_joue sera false quand le joueur aura fini de joueur
